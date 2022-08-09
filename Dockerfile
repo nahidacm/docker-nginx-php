@@ -6,7 +6,8 @@
 # FROM nahidacm/nginx-php:php-ext1
 # FROM nahidacm/nginx-php:php-ext2
 # FROM nahidacm/nginx-php:php-ext3
-FROM nahidacm/nginx-php:supervisor
+# FROM nahidacm/nginx-php:supervisor
+FROM nahidacm/nginx-php:service-php-fmp
 
 ## for apt to be noninteractive
 ENV DEBIAN_FRONTEND noninteractive
@@ -14,6 +15,7 @@ ENV DEBCONF_NONINTERACTIVE_SEEN true
 
 # RUN apt-get -y update
 # RUN apt-get install -y supervisor
+RUN apt-get -y install cron
 
 # RUN apt-get install -y nginx
 # RUN apt-get install -y php8.1 php8.1-fpm php-mysql
@@ -25,6 +27,18 @@ ENV DEBCONF_NONINTERACTIVE_SEEN true
 #     php-tokenizer php-xmlwriter php-xsl php-zip
 
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Copy cron file to the cron.d directory
+COPY config/crontabs /etc/cron.d/crontabs
+ 
+# Give execution rights on the cron job
+RUN chmod 0644 /etc/cron.d/crontabs
+
+# Apply cron job
+RUN crontab /etc/cron.d/crontabs
+ 
+# Create the log file to be able to run tail
+RUN touch /var/log/cron.log
 
 # Define mountable directories.
 VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
