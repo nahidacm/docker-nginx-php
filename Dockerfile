@@ -5,14 +5,15 @@
 # FROM nahidacm/nginx-php:php-lib
 # FROM nahidacm/nginx-php:php-ext1
 # FROM nahidacm/nginx-php:php-ext2
-FROM nahidacm/nginx-php:php-ext3
+# FROM nahidacm/nginx-php:php-ext3
+FROM nahidacm/nginx-php:supervisor
 
 ## for apt to be noninteractive
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
 
 # RUN apt-get -y update
-RUN apt-get install -y supervisor
+# RUN apt-get install -y supervisor
 
 # RUN apt-get install -y nginx
 # RUN apt-get install -y php8.1 php8.1-fpm php-mysql
