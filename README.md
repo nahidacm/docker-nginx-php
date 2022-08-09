@@ -1,6 +1,17 @@
+### Stack
+PHP 8.1
+Nginx
+Supervisor
+Cron
 Ubuntu 22.04
-Nginx latest
-php8.1 with following extension:
+
+#### Cron setup
+Add your crontab on the file `config/crontabs`
+
+### Enable / disable / configure services
+Check `config/supervisord.conf` file
+
+### Loaded php8.1 extension:
 
 `[PHP Modules]
 bcmath
