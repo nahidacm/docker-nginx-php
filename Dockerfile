@@ -7,6 +7,7 @@ ENV DEBCONF_NONINTERACTIVE_SEEN true
 RUN apt-get -y update
 RUN apt-get install -y supervisor
 RUN apt-get -y install cron
+RUN apt-get install -y vim-tiny
 
 RUN apt-get install -y nginx
 RUN apt-get install -y php8.1 php8.1-fpm php-mysql
@@ -16,6 +17,10 @@ RUN apt-get install -y php-bcmath php-ctype php-curl \
     php-intl php-json php-mbstring \
     php-simplexml php-soap php-sockets \
     php-tokenizer php-xmlwriter php-xsl php-zip
+
+# Nginx configuration
+RUN rm /etc/nginx/sites-enabled/default
+COPY config/nginx/default.conf /etc/nginx/conf.d/default.conf
 
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
