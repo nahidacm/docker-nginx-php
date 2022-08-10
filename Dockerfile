@@ -22,6 +22,10 @@ RUN apt-get install -y php-bcmath php-ctype php-curl \
 RUN rm /etc/nginx/sites-enabled/default
 COPY config/nginx/default.conf /etc/nginx/conf.d/default.conf
 
+# PHP configuration
+COPY config/php/custom.ini 	/etc/php/8.1/fpm/conf.d/custom.ini
+
+# Supervisor configuration
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Copy cron file to the cron.d directory
@@ -40,7 +44,7 @@ RUN touch /var/log/cron.log
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 # Define mountable directories.
-VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html"]
+VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html", "/etc/php/8.1/fpm/conf.d"]
 
 # Define working directory.
 WORKDIR /var/www/html

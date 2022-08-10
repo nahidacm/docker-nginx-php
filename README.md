@@ -10,6 +10,12 @@ Add your crontab on the file `config/crontabs`
 #### Enable / disable / configure services
 Check `config/supervisord.conf` file
 
+#### Load custom nginx config file
+Mount files to directory `/etc/nginx/conf.d`
+
+#### Load custom php ini
+Mount files to directory `/etc/php/8.1/fpm/conf.d`
+
 #### Loaded php8.1 extension:
 
 [PHP Modules] 
@@ -18,3 +24,5 @@ Check `config/supervisord.conf` file
 [Zend Modules]
 `Zend OPcache`
 
+#### Supported commands
+Text editor: `vim.tiny`
