@@ -27,7 +27,6 @@ COPY config/nginx/templates/default.conf.template /etc/nginx/conf.d/default.conf
 
 COPY docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
 
 # PHP configuration
 COPY config/php/custom.ini 	/etc/php/8.1/fpm/conf.d/custom.ini
@@ -62,4 +61,5 @@ RUN chown www-data:www-data -R /var/www/html
 EXPOSE 80
 EXPOSE 443
 
+ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["/usr/bin/supervisord"]
