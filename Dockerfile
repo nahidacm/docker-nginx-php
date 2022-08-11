@@ -4,10 +4,13 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
 
+ENV WEB_ROOT=/var/www/html
+
 RUN apt-get -y update
 RUN apt-get install -y supervisor
 RUN apt-get -y install cron
 RUN apt-get install -y vim-tiny
+RUN apt-get install -y gettext-base
 
 RUN apt-get install -y nginx
 RUN apt-get install -y php8.1 php8.1-fpm php-mysql
@@ -20,7 +23,11 @@ RUN apt-get install -y php-bcmath php-ctype php-curl \
 
 # Nginx configuration
 RUN rm /etc/nginx/sites-enabled/default
-COPY config/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY config/nginx/templates/default.conf.template /etc/nginx/conf.d/default.conf.template
+
+COPY docker-entrypoint.sh /
+RUN chmod +x /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
 
 # PHP configuration
 COPY config/php/custom.ini 	/etc/php/8.1/fpm/conf.d/custom.ini
@@ -48,6 +55,8 @@ VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/v
 
 # Define working directory.
 WORKDIR /var/www/html
+
+RUN chown www-data:www-data -R /var/www/html
 
 # Expose ports.
 EXPOSE 80
