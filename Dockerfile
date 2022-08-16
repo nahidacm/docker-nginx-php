@@ -55,7 +55,10 @@ VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/v
 # Define working directory.
 WORKDIR /var/www/html
 
-RUN chown www-data:www-data -R /var/www/html
+# Create non root user
+RUN useradd appuser
+
+RUN chown appuser:www-data -R /var/www/html
 
 # Expose ports.
 EXPOSE 80
