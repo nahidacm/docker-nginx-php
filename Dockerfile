@@ -11,6 +11,8 @@ RUN apt-get install -y supervisor
 RUN apt-get -y install cron
 RUN apt-get install -y vim-tiny
 RUN apt-get install -y gettext-base
+RUN apt-get install -y nodejs
+RUN apt-get install -y npm
 
 RUN apt-get install -y nginx
 RUN apt-get install -y php8.1 php8.1-fpm php-mysql
@@ -53,12 +55,12 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html", "/etc/php/8.1/fpm/conf.d"]
 
 # Define working directory.
-WORKDIR /var/www/html
+WORKDIR ${WEB_ROOT}
 
 # Create non root user
 RUN useradd appuser
 
-RUN chown appuser:www-data -R /var/www/html
+RUN chown appuser:www-data -R ${WEB_ROOT}
 
 # Expose ports.
 EXPOSE 80
