@@ -15,13 +15,14 @@ RUN apt-get install -y nodejs
 RUN apt-get install -y npm
 
 RUN apt-get install -y nginx
-RUN apt-get install -y php8.1 php8.1-fpm php-mysql
+RUN apt-get install -y php8.1 php8.1-fpm php-mysql php-sqlite3
 RUN apt-get install -y libxml2-dev openssl
 RUN apt-get install -y php-bcmath php-ctype php-curl \
     php-dom php-fileinfo php-gd php-iconv \
     php-intl php-json php-mbstring \
     php-simplexml php-soap php-sockets \
-    php-tokenizer php-xmlwriter php-xsl php-zip
+    php-tokenizer php-xmlwriter php-xsl \ 
+    php-zip
 
 # Nginx configuration
 RUN rm /etc/nginx/sites-enabled/default
@@ -58,7 +59,7 @@ VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/v
 WORKDIR ${WEB_ROOT}
 
 # Create non root user
-RUN useradd appuser
+RUN useradd -m appuser
 
 RUN chown appuser:www-data -R ${WEB_ROOT}
 
