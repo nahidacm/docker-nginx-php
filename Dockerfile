@@ -32,6 +32,7 @@ COPY docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 
 # PHP configuration
+RUN mkdir -p /var/run/php/
 COPY config/php/custom.ini 	/etc/php/8.1/fpm/conf.d/custom.ini
 
 # Supervisor configuration
