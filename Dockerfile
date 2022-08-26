@@ -4,6 +4,7 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN true
 
+ENV WORKING_DIR=/var/www/html
 ENV WEB_ROOT=/var/www/html
 
 RUN apt-get -y update
@@ -57,12 +58,12 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/etc/nginx/conf.d", "/var/log/nginx", "/var/www/html", "/etc/php/8.1/fpm/conf.d"]
 
 # Define working directory.
-WORKDIR ${WEB_ROOT}
+WORKDIR ${WORKING_DIR}
 
 # Create non root user
 RUN useradd -m appuser
 
-RUN chown appuser:www-data -R ${WEB_ROOT}
+RUN chown appuser:www-data -R ${WORKING_DIR}
 
 # Expose ports.
 EXPOSE 80
