@@ -65,6 +65,8 @@ RUN useradd -m appuser
 
 RUN chown appuser:www-data -R ${WORKING_DIR}
 
+RUN usermod --shell /bin/bash appuser
+
 # Expose ports.
 EXPOSE 80
 EXPOSE 443
